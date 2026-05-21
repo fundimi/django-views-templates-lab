@@ -1,0 +1,43 @@
+# Ambiente virtual
+djangoenv/
+venv/
+.env/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+*.log
+local_settings.py
+
+# Banco SQLite
+# Em projeto profissional, normalmente ignoramos o banco local.
+# Para este lab, você pode comentar esta linha se quiser versionar os dados do curso.
+# db.sqlite3
+
+# Arquivos estáticos coletados
+staticfiles/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# VS Code
+.vscode/
+
+# Arquivos temporários
+*.tmp
+*.bak
+*.swp
+
+# Testes e cobertura
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Variáveis de ambiente
+.env
