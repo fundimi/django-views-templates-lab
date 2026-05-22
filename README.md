@@ -1,8 +1,8 @@
 # Course Django App
 
-Aplicação web desenvolvida com Django para praticar conceitos de desenvolvimento full-stack, incluindo views, templates, rotas, ORM, class-based views, generic views e autenticação de usuários.
+Aplicação web desenvolvida com Django para praticar conceitos de desenvolvimento full-stack, incluindo views, templates, rotas, ORM, class-based views, generic views, autenticação de usuários e integração com Bootstrap.
 
-O projeto simula uma plataforma simples de cursos online, permitindo visualizar cursos, acessar detalhes, simular matrícula e gerenciar autenticação de usuários com login, logout e cadastro.
+O projeto simula uma plataforma simples de cursos online, permitindo visualizar cursos, acessar detalhes, simular matrícula, gerenciar autenticação de usuários e apresentar a interface com componentes responsivos do Bootstrap.
 
 ## Tecnologias usadas
 
@@ -11,21 +11,17 @@ O projeto simula uma plataforma simples de cursos online, permitindo visualizar 
 - SQLite
 - HTML
 - CSS
+- Bootstrap
 - Git e GitHub
 
 ## Funcionalidades
 
-- Listagem de cursos populares
-- Exibição de imagem, nome, descrição e número de matrículas
-- Página de detalhes do curso
-- Exibição de lições relacionadas ao curso
-- Simulação de matrícula em cursos
-- Atualização do número de matrículas no banco de dados
-- Login de usuários
-- Logout de usuários
-- Cadastro de novos usuários
-- Exibição condicional de informações com base no usuário autenticado
-- Integração com o Django Admin
+- Interface estilizada com Bootstrap
+- Barra de navegação com login, logout e cadastro
+- Formulários de login e cadastro estilizados
+- Lista de cursos organizada em cards
+- Página de detalhes com lições exibidas em cards
+- Layout mais limpo e responsivo
 
 ## Conceitos praticados
 
@@ -74,9 +70,11 @@ A view busca os cursos no banco de dados
         ↓
 Os dados são enviados para o template
         ↓
-O template renderiza a página HTML
+O template usa Django Template Language para renderizar os dados
         ↓
-O navegador exibe a lista de cursos
+Bootstrap estiliza a interface com navbar, cards, botões e formulários
+        ↓
+O navegador exibe a página final ao usuário
 ```
 
 ## Fluxo de matrícula
@@ -108,6 +106,11 @@ Se estiver autenticado:
 Se não estiver autenticado:
     mostra Visitor com opções Login e Signup
 ```
+
+## 6. Atualize a estrutura do projeto
+
+Se o README já tem a estrutura, apenas garanta que aparecem os templates novos:
+
 
 ## Estrutura do projeto
 
@@ -295,8 +298,77 @@ Também foi praticada a evolução entre diferentes formas de escrever views:
 Function-Based View → Class-Based View → Generic View
 ```
 
-Além disso, o projeto introduziu o sistema nativo de autenticação do Django, incluindo criação de usuários, login, logout, sessões e uso do objeto `request.user`.
+```text
+URL → View → Model/Database → Context → Template → HTML Response
+```
+
+Além disso, o projeto introduziu o sistema nativo de autenticação do Django, incluindo criação de usuários, login, logout, sessões e uso do objeto request.user.
+
+Por fim, foi feita a integração com Bootstrap para melhorar a camada visual da aplicação, aplicando componentes reutilizáveis como navbar, forms, buttons, alerts e cards.
 
 ## Status do projeto
 
 Projeto desenvolvido para fins educacionais e prática de conceitos fundamentais do Django.
+<<<<<<< HEAD
+=======
+
+## Depois:Bootstrap Integration
+
+Nesta etapa, o Bootstrap foi integrado aos templates Django para melhorar a apresentação visual da aplicação.
+
+Foram aplicadas classes do Bootstrap em componentes como:
+
+- Navbar
+- Formulários
+- Inputs
+- Botões
+- Alertas
+- Cards
+- Containers
+- Lista de cursos
+- Página de detalhes do curso
+
+O objetivo foi transformar os templates HTML simples em páginas mais organizadas, responsivas e visualmente mais próximas de uma aplicação web real.
+
+### Classes Bootstrap praticadas
+
+- `navbar`
+- `navbar-light`
+- `bg-light`
+- `container`
+- `container-fluid`
+- `form-inline`
+- `form-group`
+- `form-control`
+- `input-group`
+- `btn`
+- `btn-primary`
+- `btn-link`
+- `alert`
+- `alert-warning`
+- `card`
+- `card-deck`
+- `card-body`
+- `card-header`
+- `card-title`
+- `card-text`
+- `text-success`
+
+### Templates atualizados
+
+Foram atualizados os seguintes templates:
+
+- `course_list.html`
+- `course_detail.html`
+- `user_login.html`
+- `user_registration.html`
+
+### Principais melhorias visuais
+
+- Criação de uma barra de navegação no topo da aplicação.
+- Integração de login, logout e cadastro na navbar.
+- Estilização dos formulários de login e cadastro.
+- Organização da lista de cursos em cards.
+- Exibição das lições do curso em cards verticais.
+- Uso de botões e campos de formulário padronizados pelo Bootstrap.
+>>>>>>> d1357cd (Integrate Bootstrap into Django templates)

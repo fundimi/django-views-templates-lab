@@ -105,7 +105,7 @@ class CourseListView(generic.ListView):
 class CourseDetailsView(generic.DetailView):
     model = Course
     template_name = 'onlinecourse/course_detail.html'
-
+    
 # def enroll(request, course_id):
 #    # Se o usuário enviou o formulário pelo método POST
 #    if request.method == 'POST':
