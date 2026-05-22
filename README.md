@@ -1,84 +1,115 @@
-# Django Views and Templates Lab
+# Online Course Django App
 
-Projeto prático desenvolvido durante um laboratório de Django, com foco em **views**, **templates**, **rotas**, **formulários**, **redirecionamento**, **SQLite** e **estilização com CSS**.
+Aplicação web desenvolvida com Django para praticar conceitos de desenvolvimento full-stack, incluindo views, templates, rotas, ORM, class-based views, generic views e autenticação de usuários.
 
-## Sobre o projeto
-
-A aplicação exibe uma lista de cursos populares, permite simular a matrícula em um curso e redireciona o usuário para uma página de detalhes, onde são exibidas as lições relacionadas ao curso selecionado.
-
-Este projeto foi usado como prática para entender como o Django conecta **URL**, **view**, **template**, **model** e **banco de dados** para gerar páginas web dinâmicas.
+O projeto simula uma plataforma simples de cursos online, permitindo visualizar cursos, acessar detalhes, simular matrícula e gerenciar autenticação de usuários com login, logout e cadastro.
 
 ## Tecnologias usadas
 
-- Python
+- Python 3.11
 - Django
 - SQLite
 - HTML
 - CSS
+- Git e GitHub
 
-## Funcionalidades praticadas
+## Funcionalidades
 
-- Criação de views baseadas em função
-- Renderização de templates HTML
-- Uso de contexto com `render()`
-- Busca de dados com Django ORM
-- Ordenação de cursos por número de matrículas
-- Formulário com método `POST`
-- Proteção de formulário com `{% csrf_token %}`
-- Redirecionamento com `HttpResponseRedirect`
-- Uso de `reverse()` para resolver URLs pelo nome da rota
-- Página de detalhes de curso
-- Exibição do relacionamento entre `Course` e `Lesson`
+- Listagem de cursos populares
+- Exibição de imagem, nome, descrição e número de matrículas
+- Página de detalhes do curso
+- Exibição de lições relacionadas ao curso
+- Simulação de matrícula em cursos
+- Atualização do número de matrículas no banco de dados
+- Login de usuários
+- Logout de usuários
+- Cadastro de novos usuários
+- Exibição condicional de informações com base no usuário autenticado
+- Integração com o Django Admin
+
+## Conceitos praticados
+
+### Views e Templates
+
+- Function-Based Views
+- Renderização de templates com `render()`
+- Uso de contexto para enviar dados para o template
+- Uso de variáveis, condicionais e loops nos templates
+- Uso de `{% csrf_token %}`
+- Uso de `{% url %}` para resolver rotas pelo nome
 - Uso de arquivos estáticos com CSS
 
-## Como rodar o projeto localmente
+### Class-Based Views e Generic Views
 
-Clone o repositório ou baixe o projeto e acesse a pasta onde está o arquivo `manage.py`.
+- Uso de `View`
+- Uso de `generic.ListView`
+- Uso de `generic.DetailView`
+- Método `get()`
+- Método `post()`
+- Método `get_queryset()`
+- Uso de `.as_view()` nas rotas
+- Uso de `pk` como parâmetro de URL
 
-### 1. Criar o ambiente virtual
+### Autenticação
 
-```powershell
-py -3.11 -m venv djangoenv
-```
+- Criação de superusuário com `createsuperuser`
+- Login pelo Django Admin
+- Login pela interface da aplicação
+- Logout pela interface da aplicação
+- Cadastro de novos usuários
+- Uso de `request.user`
+- Uso de `user.is_authenticated`
+- Uso de `authenticate()`, `login()` e `logout()`
+- Uso do model `User`
+- Sessões e cookies de autenticação
 
-### 2. Ativar o ambiente virtual
-
-```powershell
-.\djangoenv\Scripts\Activate.ps1
-```
-
-Caso o PowerShell bloqueie a ativação, execute:
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\djangoenv\Scripts\Activate.ps1
-```
-
-### 3. Instalar as dependências
-
-```powershell
-pip install -r requirements.txt
-```
-
-### 4. Aplicar as migrations
-
-```powershell
-python manage.py migrate
-```
-
-### 5. Rodar o servidor
-
-```powershell
-python manage.py runserver
-```
-
-### 6. Acessar no navegador
+## Fluxo principal da aplicação
 
 ```text
-http://127.0.0.1:8000/onlinecourse/
+Usuário acessa /onlinecourse/
+        ↓
+Django encontra a rota em onlinecourse/urls.py
+        ↓
+A view busca os cursos no banco de dados
+        ↓
+Os dados são enviados para o template
+        ↓
+O template renderiza a página HTML
+        ↓
+O navegador exibe a lista de cursos
 ```
 
-## Estrutura principal do projeto
+## Fluxo de matrícula
+
+```text
+Usuário clica em Enroll
+        ↓
+Formulário envia uma requisição POST
+        ↓
+A view EnrollView busca o curso pelo pk
+        ↓
+O campo total_enrollment é incrementado
+        ↓
+O curso é salvo no banco
+        ↓
+Usuário é redirecionado para a página de detalhes
+```
+
+## Fluxo de autenticação
+
+```text
+Usuário acessa a página principal
+        ↓
+Template verifica user.is_authenticated
+        ↓
+Se estiver autenticado:
+    mostra nome do usuário e opção Logout
+
+Se não estiver autenticado:
+    mostra Visitor com opções Login e Signup
+```
+
+## Estrutura do projeto
 
 ```text
 lab3_template/
@@ -97,6 +128,11 @@ lab3_template/
 │   ├── urls.py
 │   ├── views.py
 │   ├── templates/
+│   │   └── onlinecourse/
+│   │       ├── course_list.html
+│   │       ├── course_detail.html
+│   │       ├── user_login.html
+│   │       └── user_registration.html
 │   ├── static/
 │   └── migrations/
 └── static/
@@ -106,13 +142,16 @@ lab3_template/
 
 ### `onlinecourse/views.py`
 
-Contém as funções responsáveis por processar as requisições HTTP, buscar dados no banco e retornar páginas HTML.
+Contém as views responsáveis por processar requisições, buscar dados no banco, autenticar usuários e retornar respostas HTTP.
 
-Views usadas no projeto:
+Principais views:
 
-- `popular_course_list`
-- `enroll`
-- `course_details`
+- `CourseListView`
+- `CourseDetailsView`
+- `EnrollView`
+- `login_request`
+- `logout_request`
+- `registration_request`
 
 ### `onlinecourse/urls.py`
 
@@ -122,90 +161,142 @@ Rotas principais:
 
 ```text
 /onlinecourse/
-/onlinecourse/course/<id>/
-/onlinecourse/course/<id>/enroll/
+/onlinecourse/course/<pk>/
+/onlinecourse/course/<pk>/enroll/
+/onlinecourse/login/
+/onlinecourse/logout/
+/onlinecourse/registration/
 ```
 
-### `onlinecourse/templates/`
+### `onlinecourse/templates/onlinecourse/`
 
-Contém os arquivos HTML renderizados pelo Django.
+Contém os templates HTML renderizados pelo Django.
 
 Principais templates:
 
 - `course_list.html`
 - `course_detail.html`
+- `user_login.html`
+- `user_registration.html`
 
 ### `db.sqlite3`
 
-Banco de dados SQLite usado no projeto.
+Banco de dados SQLite usado no ambiente local de desenvolvimento.
 
-Neste laboratório, o banco contém dados de cursos e lições usados para testar a aplicação.
+Neste projeto, ele armazena dados de cursos, lições, usuários, sessões e autenticação.
 
-## Fluxo da aplicação
+## Como rodar o projeto localmente
 
-```text
-Usuário acessa /onlinecourse/
-        ↓
-Django encontra a rota em onlinecourse/urls.py
-        ↓
-A view popular_course_list busca os cursos no banco
-        ↓
-O template course_list.html renderiza a lista
-        ↓
-Usuário clica em Enroll
-        ↓
-A view enroll atualiza total_enrollment
-        ↓
-Django redireciona para a página de detalhes do curso
-        ↓
-A view course_details exibe o curso e suas lições
+Clone o repositório:
+
+```powershell
+git clone URL_DO_REPOSITORIO
+cd NOME_DA_PASTA
 ```
 
-## Resultado da prática
+Crie o ambiente virtual:
 
-Ao final da prática, a aplicação permite:
+```powershell
+py -3.11 -m venv djangoenv
+```
 
-- Visualizar cursos cadastrados.
-- Ver o número de matrículas de cada curso.
-- Clicar em `Enroll`.
-- Atualizar o número de matrículas no banco de dados.
-- Acessar a página de detalhes do curso.
-- Visualizar as lições associadas ao curso.
+Ative o ambiente virtual:
 
-## Aprendizado
+```powershell
+.\djangoenv\Scripts\Activate.ps1
+```
 
-Esta prática ajudou a consolidar como o Django organiza uma aplicação web usando:
+Caso o PowerShell bloqueie a ativação, execute:
 
-- `urls.py` para definir os caminhos da aplicação.
-- `views.py` para processar requisições e respostas.
-- `models.py` para representar dados do banco.
-- Templates HTML para exibir conteúdo dinâmico.
-- SQLite como banco de dados local.
-- CSS estático para melhorar a apresentação visual.
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\djangoenv\Scripts\Activate.ps1
+```
 
-O principal aprendizado foi entender o fluxo completo:
+Instale as dependências:
+
+```powershell
+pip install -r requirements.txt
+```
+
+Aplique as migrations:
+
+```powershell
+python manage.py migrate
+```
+
+Crie um superusuário:
+
+```powershell
+python manage.py createsuperuser
+```
+
+Rode o servidor local:
+
+```powershell
+python manage.py runserver
+```
+
+Acesse a aplicação:
+
+```text
+http://127.0.0.1:8000/onlinecourse/
+```
+
+Acesse o painel administrativo:
+
+```text
+http://127.0.0.1:8000/admin/
+```
+
+## Comandos úteis
+
+Verificar problemas no projeto:
+
+```powershell
+python manage.py check
+```
+
+Criar migrations:
+
+```powershell
+python manage.py makemigrations
+```
+
+Aplicar migrations:
+
+```powershell
+python manage.py migrate
+```
+
+Rodar servidor:
+
+```powershell
+python manage.py runserver
+```
+
+Criar superusuário:
+
+```powershell
+python manage.py createsuperuser
+```
+
+## Aprendizados principais
+
+Este projeto consolidou o fluxo completo de uma aplicação Django:
 
 ```text
 URL → View → Model/Database → Context → Template → HTML Response
 ```
 
-## Class-Based and Generic Views
+Também foi praticada a evolução entre diferentes formas de escrever views:
 
-Nesta etapa, as views baseadas em função foram refatoradas para views baseadas em classe e generic views do Django.
+```text
+Function-Based View → Class-Based View → Generic View
+```
 
-Foram praticadas:
+Além disso, o projeto introduziu o sistema nativo de autenticação do Django, incluindo criação de usuários, login, logout, sessões e uso do objeto `request.user`.
 
-- `View`
-- `generic.ListView`
-- `generic.DetailView`
-- Método `get()`
-- Método `post()`
-- Método `get_queryset()`
-- Uso de `.as_view()` nas rotas
-- Uso de `pk` como parâmetro de URL
+## Status do projeto
 
-A `CourseListView` passou a herdar de `generic.ListView`, reduzindo código repetitivo para listar cursos.
-
-A `CourseDetailsView` passou a herdar de `generic.DetailView`, permitindo exibir detalhes de um curso com menos código.
-
-A `EnrollView` permaneceu como `View`, pois contém uma lógica customizada de matrícula.
+Projeto desenvolvido para fins educacionais e prática de conceitos fundamentais do Django.
