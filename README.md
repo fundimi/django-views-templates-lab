@@ -118,7 +118,7 @@ Se o README já tem a estrutura, apenas garanta que aparecem os templates novos:
 lab3_template/
 ├── manage.py
 ├── requirements.txt
-├── db.sqlite3
+├── db.sqlite3  # gerado localmente e ignorado pelo Git
 ├── myproject/
 │   ├── settings.py
 │   ├── urls.py
@@ -140,6 +140,7 @@ lab3_template/
 │   └── migrations/
 └── static/
 ```
+> O arquivo `db.sqlite3` é usado apenas localmente e não é versionado no repositório.
 
 ## Principais arquivos
 
@@ -182,11 +183,11 @@ Principais templates:
 - `user_login.html`
 - `user_registration.html`
 
-### `db.sqlite3`
+### Banco de dados local
 
-Banco de dados SQLite usado no ambiente local de desenvolvimento.
+O projeto usa SQLite em ambiente de desenvolvimento.
 
-Neste projeto, ele armazena dados de cursos, lições, usuários, sessões e autenticação.
+O arquivo `db.sqlite3` é gerado localmente após as migrations e não deve ser versionado, pois pode conter usuários, sessões e dados locais de teste.
 
 ## Como rodar o projeto localmente
 
