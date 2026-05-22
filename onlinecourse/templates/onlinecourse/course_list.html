@@ -4,72 +4,84 @@
     {% load static %}
     <meta charset="UTF-8">
     <title>Online Courses</title>
-</head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <body>
-<!--Authentication section-->
-{% if user.is_authenticated %}
-<div class="rightalign">
-    <div class="dropdown">
-        <button class="dropbtn">{{ user.first_name }}</button>
-        <div class="dropdown-content">
-            <a href="{% url 'onlinecourse:logout' %}">Logout</a>
+
+<div class="alert alert-success">
+    Bootstrap carregado se esta caixa aparecer verde.
+</div>
+
+<nav class="navbar navbar-light bg-light mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'onlinecourse:popular_course_list' %}">
+            Online Course
+        </a>
+
+        <div class="ml-auto">
+            {% if user.is_authenticated %}
+                <span class="navbar-text mr-2">
+                    {{ user.first_name }} ({{ user.username }})
+                </span>
+                <a class="btn btn-outline-secondary" href="{% url 'onlinecourse:logout' %}">
+                    Logout
+                </a>
+            {% else %}
+                <form class="form-inline" action="{% url 'onlinecourse:login' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text"
+                           class="form-control mr-2"
+                           placeholder="Username"
+                           name="username">
+
+                    <input type="password"
+                           class="form-control mr-2"
+                           placeholder="Password"
+                           name="psw">
+
+                    <button class="btn btn-primary mr-2" type="submit">
+                        Login
+                    </button>
+
+                    <a class="btn btn-link" href="{% url 'onlinecourse:registration' %}">
+                        Sign Up
+                    </a>
+                </form>
+            {% endif %}
         </div>
     </div>
-</div>
-{% else %}
-<div class="rightalign">
-    <div class="dropdown">
-        <form action="{% url 'onlinecourse:registration' %}" method="get">
-            <input class="dropbtn" type="submit" value="Visitor">
-            <div class="dropdown-content">
-                <a href="{% url 'onlinecourse:registration' %}">Signup</a>
-                <a href="{% url 'onlinecourse:login' %}">Login</a>
-            </div>
-        </form>
-    </div>
-</div>
-{% endif %}
-
-<!-- Add your template there -->
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'onlinecourse/course.css' %}">
-
-<h2>Popular courses list</h2>
+</nav>
 
 {% if course_list %}
-   <ul>
-   {% for course in course_list %}
-       <div class="container">
-          <div class="row">
-            <div class="column-33">
-                <img src="{{ MEDIA_URL }}/{{ course.image }}" width="360" height="360">
-            </div>
+<div class="container">
+    <div class="card-deck">
+        {% for course in course_list %}
+        <div class="card" style="width: 36rem;">
+            <img class="card-img-left"
+                 src="{{ MEDIA_URL }}/{{ course.image }}"
+                 width="240px"
+                 height="240px"
+                 alt="Course image">
 
-            <div class="column-66">
-                <h1 class="xlarge-font"><b>{{ course.name }}</b></h1>
+            <div class="card-body bg-light">
+                <h5 class="card-title">
+                    {{ course.name }},
+                    <span class="text-success">{{ course.total_enrollment }} enrolled</span>
+                </h5>
 
-                <p style="color:MediumSeaGreen;">
-                    <b>{{ course.total_enrollment }} enrolled</b>
-                </p>
-
-                <p>{{ course.description }}</p>
+                <p class="card-text">{{ course.description }}</p>
 
                 <form action="{% url 'onlinecourse:enroll' course.id %}" method="post">
                     {% csrf_token %}
-                    <input class="button" type="submit" value="Enroll">
+                    <input class="btn btn-primary" type="submit" value="Enroll">
                 </form>
             </div>
-          </div>
-       </div>
-       <hr>
-   {% endfor %}
-   </ul>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% else %}
-    <p>No courses are available.</p>
+<p>No courses are available.</p>
 {% endif %}
-
-
-
 
 </body>
 </html>
