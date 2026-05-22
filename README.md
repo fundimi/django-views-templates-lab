@@ -1,4 +1,4 @@
-# Online Course Django App
+# Course Django App
 
 Aplicação web desenvolvida com Django para praticar conceitos de desenvolvimento full-stack, incluindo views, templates, rotas, ORM, class-based views, generic views e autenticação de usuários.
 
