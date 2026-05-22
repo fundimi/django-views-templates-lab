@@ -188,3 +188,24 @@ O principal aprendizado foi entender o fluxo completo:
 ```text
 URL → View → Model/Database → Context → Template → HTML Response
 ```
+
+## Class-Based and Generic Views
+
+Nesta etapa, as views baseadas em função foram refatoradas para views baseadas em classe e generic views do Django.
+
+Foram praticadas:
+
+- `View`
+- `generic.ListView`
+- `generic.DetailView`
+- Método `get()`
+- Método `post()`
+- Método `get_queryset()`
+- Uso de `.as_view()` nas rotas
+- Uso de `pk` como parâmetro de URL
+
+A `CourseListView` passou a herdar de `generic.ListView`, reduzindo código repetitivo para listar cursos.
+
+A `CourseDetailsView` passou a herdar de `generic.DetailView`, permitindo exibir detalhes de um curso com menos código.
+
+A `EnrollView` permaneceu como `View`, pois contém uma lógica customizada de matrícula.
