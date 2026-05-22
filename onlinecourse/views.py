@@ -5,8 +5,68 @@ from .models import Course, Lesson, Enrollment
 from django.urls import reverse
 from django.views import generic, View
 from django.http import Http404
+from django.contrib.auth import logout, authenticate, login
+import logging
+
+from django.contrib.auth.models import User
+logger = logging.getLogger(__name__)
 
 # Create your views here.
+
+def registration_request(request):
+    context = {}
+
+    if request.method == 'GET':
+        return render(request, 'onlinecourse/user_registration.html', context)
+
+    elif request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['psw']
+        first_name = request.POST['firstname']
+        last_name = request.POST['lastname']
+
+        user_exist = False
+
+        try:
+            User.objects.get(username=username)
+            user_exist = True
+        except User.DoesNotExist:
+            logger.debug("{} is new user".format(username))
+
+        if not user_exist:
+            user = User.objects.create_user(
+                username=username,
+                first_name=first_name,
+                last_name=last_name,
+                password=password
+            )
+
+            login(request, user)
+            return redirect("onlinecourse:popular_course_list")
+
+        return render(request, 'onlinecourse/user_registration.html', context)
+
+def login_request(request):
+    context = {}
+
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['psw']
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('onlinecourse:popular_course_list')
+        else:
+            return render(request, 'onlinecourse/user_login.html', context)
+
+    return render(request, 'onlinecourse/user_login.html', context)
+
+def logout_request(request):
+    print("Log out the user `{}`".format(request.user.username))
+    logout(request)
+    return redirect('onlinecourse:popular_course_list')
 
 #def popular_course_list(request):
 
@@ -65,6 +125,8 @@ class EnrollView(View):
         return HttpResponseRedirect(
             reverse(viewname='onlinecourse:course_details', args=(course.id,))
         )
+
+
 
 # def course_details(request, course_id):
 #     context = {}

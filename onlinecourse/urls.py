@@ -8,6 +8,9 @@ app_name = 'onlinecourse'
 urlpatterns = [
     # Add path here
     path(route='', view=views.CourseListView.as_view(), name='popular_course_list'),
+    path('registration/', views.registration_request, name='registration'),
+    path('login/', views.login_request, name='login'),
+    path('logout/', views.logout_request, name='logout'),
     path(route='course/<int:pk>/', view=views.CourseDetailsView.as_view(), name='course_details'),
     path(route='course/<int:pk>/enroll/', view=views.EnrollView.as_view(), name='enroll'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\
