@@ -371,4 +371,4 @@ Foram atualizados os seguintes templates:
 - Organização da lista de cursos em cards.
 - Exibição das lições do curso em cards verticais.
 - Uso de botões e campos de formulário padronizados pelo Bootstrap.
->>>>>>> d1357cd (Integrate Bootstrap into Django templates)
+
